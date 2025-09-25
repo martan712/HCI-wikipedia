@@ -1,24 +1,5 @@
 import pandas as pd
 
-def paths_to_transitions(paths):
-        transitions = []
-        for index, row in paths.iterrows():
-            path = row['path']
-            goal = row['Goal']
-            
-            # Iterate through the path, from the first article up to the second-to-last
-            for i in range(len(path) - 1):
-                A = path[i]        # Current Article (a)
-                A_prime = path[i+1] # Next Article (a')
-                
-                transitions.append({
-                    'Current_A': A,
-                    'Next_A_prime': A_prime,
-                    'Goal_G': goal
-                }
-                )
-        transitions_df = pd.DataFrame(transitions)
-        return transitions_df
 
 def compute_click_count_from_transitions(transitions):
     return  transitions.groupby(['Current_A', 'Next_A_prime', 'Goal_G']).size().reset_index(name='N_click')
@@ -30,11 +11,10 @@ def compute_encounters_from_transitions(transitions):
 def compute_out_degree(edges):
     return edges.groupby('Current_A').size().reset_index(name='Out_Degree')
     
-def compute_posteriors(paths, edges):
+def compute_posteriors(transitions, edges):
     ALPHA = 0.1
     
     # Compute statistics over dataset
-    transitions = paths_to_transitions(paths)
     click_counts = compute_click_count_from_transitions(transitions)
     encounter_counts = compute_encounters_from_transitions(transitions)
     La_counts = compute_out_degree(edges)

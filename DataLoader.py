@@ -37,9 +37,30 @@ class DataLoader():
         pagerank_df.columns = ['Current_A', 'PageRank']
         self.pagerank = pagerank_df
         
+    def load_transitions(self):
+        transitions = []
+        for index, row in self.paths.iterrows():
+            path = row['path']
+            goal = row['Goal']
+            
+            # Iterate through the path, from the first article up to the second-to-last
+            for i in range(len(path) - 1):
+                A = path[i]        # Current Article (a)
+                A_prime = path[i+1] # Next Article (a')
+                
+                transitions.append({
+                    'Current_A': A,
+                    'Next_A_prime': A_prime,
+                    'Goal_G': goal
+                }
+                )
+        transitions_df = pd.DataFrame(transitions)
+        self.transitions = transitions_df
+
     def load_edges(self, filename):
-        edges = pd.read_csv(filename, sep="\t")
+        edges = pd.read_csv( self.get_file_in_dir(filename), sep="\t")
         edges.columns = ["Current_A","Next_A"]
         self.edges = edges
         
         self.load_pagerank()
+        self.load_transitions()
