@@ -11,9 +11,8 @@ def compute_encounters_from_transitions(transitions):
 def compute_out_degree(edges):
     return edges.groupby('Current_A').size().reset_index(name='Out_Degree')
     
-def compute_posteriors(transitions, edges):
-    ALPHA = 0.1
-    
+def compute_posteriors(transitions, edges, ALPHA=0.1):
+
     # Compute statistics over dataset
     click_counts = compute_click_count_from_transitions(transitions)
     encounter_counts = compute_encounters_from_transitions(transitions)
