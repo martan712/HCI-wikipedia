@@ -22,12 +22,8 @@ def compute_posteriors(transitions, edges, ALPHA=0.1):
     # 1. Merge the click and encounter counts
     posteriors_df = pd.merge(click_counts, encounter_counts, on=['Current_A', 'Goal_G'], how='left')
 
-    # 2. Merge with the out-degree (La) approximation
-    La_counts.columns = ["Goal_G", "Out_Degree"]
 
-    posteriors_df = pd.merge(posteriors_df, La_counts, on='Goal_G', how='left')
-    # Fill NAs with 0
-    posteriors_df['Out_Degree'] = posteriors_df['Out_Degree'].fillna(0)
+    posteriors_df = pd.merge(posteriors_df, La_counts, on='Current_A', how='left')
 
     # 3. Calculate the Posterior Click Probability (P*)
     posteriors_df['P_star'] = (
@@ -46,46 +42,38 @@ def compute_path_distance(
         pageranks
     ):
     logs = []
-    # Iterate over all transitions (j=i to n-1)
-    # i is the index for the starting state a_i, which is path[0]
-    # j goes from 0 up to len(path) - 2
+
     for j in range(len(path) - 1):
         a_current = path[j]
         a_next = path[j+1]
         
         # Get the probability from the model
         P_star = posteriors.loc[(a_current,a_next, goal)].values[0]
-        # The probability must be in (0, 1] to take the log.
+
         if P_star <= 0:
-            # Handle impossible/invalid transitions with a very high cost
-            # np.inf is equivalent to -log(0)
-            print((a_current,a_next, goal),P_star)
-            print(path, j)
-            return np.inf 
+            # Handle impossible/invalid transitions
+            return None 
 
         # Compute -log(P*) for this single transition
         neg_log_p = np.log(P_star)
         logs.append(neg_log_p)
 
     # Sum the individual negative log-likelihoods
-    sum_neg_logs = sum(logs)
+    sum_neg_logs = -sum(logs)
 
     # --- 2. Compute Goal Prior Cost (Negative Log-PageRank) ---
     # Term 2: -log PageRank(g)
     if goal in pageranks.index:
         PR_g = pageranks.loc[goal]
     else:
-        PR_g = 0
+        PR_g = np.inf
         
-    # PageRank must be > 0 to take the log.
-    if PR_g <= 0:
-        pagerank_cost = np.inf
-    else:
-        pagerank_cost = np.log(PR_g)
 
+    pagerank_cost = -np.log(PR_g)
+    
     # --- 3. Compute Total Cost ---
     
-    total_cost = -sum_neg_logs / -pagerank_cost
+    total_cost = sum_neg_logs / pagerank_cost
     
     return {"start":path[0] , "goal":goal, "distance":total_cost}
 
@@ -98,7 +86,9 @@ def compute_sub_path_distances(
 
     path_distances = []
     for i in range(len(path)-1):
-        path_distances.append(compute_path_distance(path[i:], goal, posteriors, pageranks))
+        path_dist = compute_path_distance(path[i:], goal, posteriors, pageranks)
+        if type(path_dist) is dict:
+            path_distances.append(path_dist)
         
     return path_distances
 
