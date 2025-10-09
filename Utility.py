@@ -94,7 +94,7 @@ def start_at_outdegree_hub(dataloader):
     def filter_func(path):
         if len(path) < 2:
             return
-        start_index = min(range(len(path)-1), key=lambda x: get_outdegree(path[x]))
+        start_index = max(range(len(path)-1), key=lambda x: get_outdegree(path[x]))
         for i in range(start_index, len(path)-1):
             yield path[i:]
     return filter_func
