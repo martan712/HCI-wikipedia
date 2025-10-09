@@ -74,14 +74,14 @@ class DataLoader():
         self.paths=paths  
         
     def load_pagerank(self):
-        G = nx.from_pandas_edgelist(
+        self.nx_graph = nx.from_pandas_edgelist(
             self.edges, 
             source='Current_A', 
             target='Next_A', 
             create_using=nx.DiGraph # Directed Graph
         )
 
-        pagerank_scores = nx.pagerank(G, alpha=0.85)
+        pagerank_scores = nx.pagerank(self.nx_graph, alpha=0.85)
         pagerank_series = pd.Series(pagerank_scores, name='PageRank')
         pagerank_df = pagerank_series
         self.pagerank = pagerank_df

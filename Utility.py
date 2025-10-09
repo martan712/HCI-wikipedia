@@ -77,25 +77,48 @@ def compute_path_distance(
     
     return {"start":path[0] , "goal":goal, "distance":total_cost}
 
+def all_sub_paths(path):
+    for i in range(len(path)-1):
+        yield path[i:]
+
+def start_at_outdegree_hub(dataloader):
+    def get_outdegree(article):
+        deg = dataloader.nx_graph.out_degree(article)
+        # necessary because Wikipedia_Text_of_the_GNU_Free_Documentation_License does not occur in the graph but does occur in the paths
+        if type(deg) is int:
+            return deg
+        elif len(deg) > 0:
+            return deg[0]
+        else:
+            return 0
+    def filter_func(path):
+        if len(path) < 2:
+            return
+        start_index = min(range(len(path)-1), key=lambda x: get_outdegree(path[x]))
+        for i in range(start_index, len(path)-1):
+            yield path[i:]
+    return filter_func
+
 def compute_sub_path_distances(
         path,
         goal,
         posteriors,
-        pageranks
+        pageranks,
+        path_filter
     ):
 
     path_distances = []
-    for i in range(len(path)-1):
-        path_dist = compute_path_distance(path[i:], goal, posteriors, pageranks)
+    for p in path_filter(path):
+        path_dist = compute_path_distance(p, goal, posteriors, pageranks)
         if type(path_dist) is dict:
             path_distances.append(path_dist)
         
     return path_distances
 
-def compute_path_specific_distances(paths, posteriors, pageranks):
+def compute_path_specific_distances(paths, posteriors, pageranks, path_filter=all_sub_paths):
     transition_distances = []
     for _, path in tqdm(paths.iterrows(), total=len(paths), desc="Processing Paths"):
-        sub_path_dists = compute_sub_path_distances(path["path"], path["Goal"], posteriors, pageranks)
+        sub_path_dists = compute_sub_path_distances(path["path"], path["Goal"], posteriors, pageranks, path_filter)
 
         transition_distances+=sub_path_dists
         
