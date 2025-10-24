@@ -20,13 +20,14 @@ We then use the LLM's semantic distance as the length of each edge.
 The semantic graph distance between two articles is the length of the shortest path in this weighted graph.
 
 % \paragraph{Graph distance}
-The last distance matric, \emph{graph distance}, represents the length of the shortest path between two pages, but where all edges simply have a weight of 1, representing the minimal number of clicks.
+The last distance metric, \emph{graph distance}, represents the length of the shortest path between two pages, but where all edges simply have a weight of 1, representing the minimal number of clicks.
 % This metric indicates the minimal number of clicks needed to get from one article to another.
 
 \subsection{Width metrics}
 The width-like metric we used is \emph{PageRank}. To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link.
 At some point this user gets bored and starts at some other random page and continues clicking links randomly.
 The PageRank of page $a$ is defined as the chance this user reaches it \cite{Brin1998Anatomy}.
+% do we have multiple explanations of pagerank at this point? idk
 Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach, as PageRank grows with more incoming links, and gives more weight to incoming links from pages that are themselves easy to reach.
 
 We also tried using the indegree of a page in the Wikipedia graph, but found that it gave strictly worse results. We will not discuss indegree as a metric further.
