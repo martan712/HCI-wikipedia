@@ -25,7 +25,7 @@
 \end{figure}
 
 
-We present our results in \Cref{fig:qbin-length} and \Cref{fig:bin-length}. These figures differ in the binning strategy used: \Cref{fig:qbin-length} uses proportional binning and \Cref{fig:bin-length} uses fixed size binning. We will go over the various results we have, grouping them by the used distance metric.
+We present our results in \Cref{fig:qbin-length} and \Cref{fig:bin-length}. These figures differ in the binning strategy used: \Cref{fig:qbin-length} uses proportional binning and \Cref{fig:bin-length} uses fixed siez binning. We will go over the various results we have, grouping them by the used distance metric.
 
 \paragraph{Semantic distance}
 We found that the semantic distance by itself is a relatively poor indicator of task difficulty, with $r = 0.56$ and $r = 0.70$. However, by including the PageRank of the target article, results improved significantly, going up to $r = 0.84$ and even $r = 0.89$. We believe the reason for this is that the semantic distance by itself does not take into account the graph structure, which seems to be an important factor in total task difficulty. Adding PageRank ensures both of these are factored in.
