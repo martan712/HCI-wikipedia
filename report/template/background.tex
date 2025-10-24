@@ -4,34 +4,32 @@ In this section we provide an overview of background literature in current acade
 
 The idea that Wikipedia contains information on semantic relationships is not a new one. Several works investigate the possibility of extracting additional information on the semantic distance between concepts from Wikipedia, all of these show promising results\cite{efficientwordnetwikipedia, extendingwordnet, wikipediaconceptmaps}. These findings suggest a relationship between the semantic similarity of pages, and their distance in the Wikipedia graph-structure. [extend?]
 
-The papers mentioned above mostly focus on information that can directly be extracted from the structure of data within Wikipedia. However, there are other aspects to consider as well, especially the way this Wikipedia data-structure is actually utilized by its users. West et al. \cite{llmwikipediagame} investigate the possibility of extracting semantic distances from a dataaset of Wikispeedia games. This dataset consists of network traversal paths, where each path represents a person playing the Wikipedia game. In this game, a user is tasked to navigate from source-page A to goal-page B in the least amount of steps, thus these traces show the behaviour of targeted navigation on the Wikipedia network. This paper presents several interesting findings and insights, first and foremost that these traces produce semantic distances between concepts that are sensible when presented to human evaluators, improving over the LSA baseline. A second interesting observation they make is the fact that wayfinding for this task consists of two phases, a generalization phase and a specifcation phase. Since source-page A and goal-page B don't necessarily have a clear human-sensible path between the two directly, players of the game often first navigate to a \say{hub}-page.    
+The papers mentioned above mostly focus on information that can directly be extracted from the structure of data within Wikipedia. However, there are other aspects to consider as well, such as the way this Wikipedia data-structure is actually utilized by its users. West et al. \cite{semdistances} investigate the possibility of extracting semantic distances from a dataset of Wikispeedia games. This dataset consists of network traversal paths, where each path represents a person playing the Wikipedia game. In this game, a user is tasked to navigate from source-page A to goal-page B in the least amount of steps, thus these traces show the behaviour of targeted navigation on the Wikipedia network. The most relevant finding in this paper is that these traces can be analysed to determine semantic distances between concepts that are sensible when presented to human evaluators, improving over an LSA baseline. This appraoch was extended in 2013 by Singer et al.\cite{semdistancesbetter} to include distances for items which don't directly occur in the same path, and used a larger dataset. A 2016 paper \cite{semanticsunconstrainedwikipedia} furthermore finds that even traces from unconstrained navigation can be used to infer semantic similarity between topics.
 
-Test
+In a 2016 paper, Nogueira and Cho apply these concepts to create a model which produces random walks between nodes on the Wikipedia graph\cite{LSTMembedding}. The model they propose uses bag-of-words vectors and beamsearch to determine it's next move with a Long Short-Term Memory netowork. They find that the model outperforms several baselines on the WikiNav-Jeopardy benchmark. In 2022 Zaheer et al. extend the approach outlined by Nogueira and Cho \cite{embeddingrandomwalks}. They use transformer models for embedding rather than a bag-of-words approach, and removed complex search at evaluation time, these changes allowed them to use a significantly larger graph. This paper massively increased the likelihood of succesfully navigating between points A and B, from 12.5\% to 90\%.  Zaheer et al. demonstrate the applicability of this model in performing targeted navigation on information graphs using this semantic exploration approach by applying it on a fact-checking and question answering benchmark. Their method vastly improves baselines, at times approaching or improving over state-of-the-art methods. The paper by Zaheer et al. shows strong evidence that semantic similarity extracted by transformers facilitate a good navigation policy \say{Using random features in place of [transformers] caused the performance to drop to near chance, showing that the models are utilizing the semantics at each node and are not relying on a general search strategy of some kind}. 
 
-%https://link.springer.com/article/10.1007/s13218-015-0417-5
+Looking back at the 2009 paper by West et al. \cite{semdistances} is the fact that wayfinding for this task consists of two phases, a generalization phase and a specifcation phase. Since source-page A and goal-page B don't necessarily have a clear human-sensible path between the two directly, players of the game often first navigate to a \say{hub}-page, which have a large number of outgoing edges to different topics. West et al. investigate such strategies further in \cite{humanwayfinding}, describing several strategies and developing a target prediction model based on these. A more thorough analysis of user behaviour on Wikipedia is conducted by Piccardi et al. in 2023, and again by Piccardi and West in 2025 \cite{overviewwikipedianavigation, overviewwikipedianavigation2}. They find that Wikipedia usage does not always follow the same structure as targeted search, meaning results do not generalize to all Wikipedia usage. Specifically natural Wikipedia usage is often very short, only one (or very few) clicks. This can be explained by viewing Wikipedia in the context of the entire Web. Exploration often happens outside of Wikipedia, with users querying search engines such as Google for information, Google then in turn returns Wikipedia pages containing relevant information. 
 
-LLMs can do wikipedia traversal. Why? Semantic distance indicative of distance? \cite{llmwikipediagame}
-Paper Ana -> idea that there is a relationship between time/clicks and semantic distance \cite{semdistances}\cite{humanwayfinding}
 
-Wikipedia traversal overview \cite{overviewwikipedianavigation, overviewwikipedianavigation2}
-    + "However, individuals' performance when navigating a knowledge space is influenced by personal characteristics,with younger and multilingual individuals demonstrating higher navigation abilities (Zhu, Yasseri, \& Kertész, 2024)."
-    + hypothesis to state that this suggests that internal bayesian might be closer to optimal path rather than semantic distance only -> younger people have more knowledge of the possible network (or think about it like this more)
+
+- Shannon-Hartley then fitslaw
+- Fits law -> expect somewhat of a similar relationship
++ log
++ the semantic/optimal distance as distance, width analogous to ease of access
++ Intuitition because of the hub behaviour 
+- Explain why we do this (similar analogy seems intuitive)
+%
+
+Mental model of graph structure to determine semantic distance ->  Network traversal to determine semantic distance: %https://sci-hub.se/10.1037/xlm0000391
+
+
     
-    Fits law -> expect somewhat of a similar relationship
-	+ log
-	+ the semantic/optimal distance as distance, width analogous to ease of access
-    + Intuitition because of the hub behaviour 
+
 
 LLM to find semantic distances:
 	- why?
 	- what llm?
 
-Network traversal to determine semantic distance: %https://sci-hub.se/10.1037/xlm0000391
-
-Semantic distance as a predictor of click behaviour: %https://www.tandfonline.com/doi/epdf/10.1080/13614568.2016.1179798?needAccess=true
-    + tf-idf rather than title similarity
-        - but not insane to use titles \cite{titleforsimilarity}
-    + interesting note on structure
 
 Might be interesting: %https://dl.acm.org/doi/pdf/10.1145/3488560.3498496 https://arxiv.org/pdf/1203.1858
 
