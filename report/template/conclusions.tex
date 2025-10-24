@@ -1,0 +1,57 @@
+### Intuititions for future directions I got from ChatGP
+I think we did not select a good noise, the ones outlined below are some alternatives we can briefly suggest in future work. Especially (a) and (d) make sense to me.
+
+\subsection*{(a) Semantic Reach Centrality (Global Semantic Closeness)}
+
+We define the effective width of a target node $t$ as
+\begin{equation}
+W_{\text{target}} = \frac{1}{N} \sum_{i \in V} \exp\left(-\lambda \, d_{\text{sem}}(i, t)\right),
+\end{equation}
+where $d_{\text{sem}}(i, t)$ is the shortest-path semantic distance between node $i$ and the target $t$, 
+computed using link weights based on semantic similarity.
+
+\noindent \textbf{Intuition:}  
+A target with many semantically close nodes has a large width, while distant or obscure topics 
+have small width. The exponential term ensures diminishing influence with increasing distance.
+This measure is essentially a form of \textit{semantic closeness centrality}, analogous to Katz centrality.
+
+\subsection*{(b) Semantic Katz or Personalized PageRank}
+
+Instead of a uniform random-walk PageRank, we can define:
+\begin{equation}
+W_{\text{target}} = \mathrm{KatzCentrality}_{\text{sem}}(t)
+= \sum_{k=1}^{\infty} \beta^k 
+    \sum_{\substack{\text{paths of length } k \\ \text{ending at } t}}
+    \prod_{e \in \text{path}} s(e),
+\end{equation}
+where $s(e)$ denotes the semantic similarity on edge $e$, and $\beta \in (0,1)$ 
+is an attenuation factor. This expression counts semantically weighted paths 
+leading to the target --- a natural analog of the ``width of the attractor basin.''
+
+\subsection*{(c) Semantic Basin Size (Thresholded Reachability)}
+
+For a semantic radius $\delta$, define:
+\begin{equation}
+W_{\text{target}} = 
+\left| 
+\left\{ i \in V : d_{\text{sem}}(i, t) < \delta \right\} 
+\right|.
+\end{equation}
+That is, $W_{\text{target}}$ represents how many nodes are semantically within a 
+radius $\delta$ of the target. This measure corresponds to the literal size of the target's 
+\textit{semantic capture region}.
+
+\subsection*{(d) Empirical Reachability}
+
+If Wikipedia game traversal data are available, $W_{\text{target}}$ can be estimated empirically as
+\begin{equation}
+W_{\text{target}} = 
+\frac{1}{N_{\text{start}}} 
+\sum_{i}
+\frac{1}{
+    \mathbb{E}\!\left[ \text{path length from } i \text{ to target} \right]
+}.
+\end{equation}
+Targets that are reached quickly from many starting points have larger effective widths.
+This is a behavioral rather than structural measure, but it directly captures 
+the observed ease of reaching the target.
