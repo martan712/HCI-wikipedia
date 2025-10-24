@@ -1,41 +1,59 @@
 \section{Methods}
 \label{sec:methods}
-In order to try and find useful difficulty metrics for Wikispeedia, we compared various potential metrics to see how well they predict the 'real' difficulty, measured by how long the user ended up taking. To do this, we tried the same formula as Fitts' law, $ID = log_2(\frac{D}{W} + 1)$, by investigating metrics that are conceptually similar to distance (how far we are removed from our target page) and width (how easy it is to reach the target page).
+In this chapter we outline our methodology and experimental setup. We describe in detail how our experiment is set up and how everything is computed. Then, we describe how experiments are structured. Finally, we describe how these experiments allow us to answer our research question.
 
-Furthermore, we used binning to group tasks with similar difficulty. The reason for this is that without binning, we have a lot of tasks that are similar in difficulty but have very few samples, causing a lot of noise. We primarily used proportional bins (where we vary bin width and attempt to balance the number of data points per bin) in this paper, but the appendix also contains results without binning (where each datapoint represents a single task with at least three datapoints) and results with fixed-width bins.
+\subsection{Conceptualisations}
+Can we find conseptual mappings for signal and noise in Shannon's theorom that have a log-linear relationship with the number of clicks?
+We set up experiments for a range of different metrics $D$ and $W$. In this section we briefly give an overview of these different conceptualisations.
 
-After binning, we use linear regression to see if there is a correlation between the index of difficulty and the number of clicks taken. For this, we used SciPy \cite{scipy}.
-
-\subsection{Distance metrics}
+\subsubsection{Distance metrics}
 % \paragraph{Distance metrics}
 In this paper, we tried the following three distance metrics: \emph{semantic distance}, \emph{semantic graph distance}, and \emph{graph distance}.
 
+\begin{itemize}
 % \paragraph{Semantic distance}
+\item
 The first distance metric, \emph{semantic distance}, is calculated by the LLM transformer model \cite{...} and indicates the similarity of the titles of two Wikipedia articles.
 
 % \paragraph{Semantic graph distance}
-In order to calculate the second distance metric, \emph{semantic graph distance}, we first construct a graph of all Wikipedia pages in the dataset.
-The articles represent the vertices in the graph, and the links between them are the edges.
-We then use the LLM's semantic distance as the length of each edge.
-The semantic graph distance between two articles is the length of the shortest path in this weighted graph.
+\item
+In order to calculate the second distance metric, \emph{semantic graph distance}, we first construct a graph of all Wikipedia pages in the dataset. The articles represent the vertices in the graph, and the links between them are the edges. We then use the LLM's semantic distance as the length of each edge. The semantic graph distance between two articles is the length of the shortest path in this weighted graph.
 
 % \paragraph{Graph distance}
-The last distance matric, \emph{graph distance}, represents the length of the shortest path between two pages, but where all edges simply have a weight of 1, representing the minimal number of clicks.
+\item
+The last distance matric, \emph{graph distance}, represents the length of the shortest path between two pages, where all edges simply have a weight of 1, representing the minimal number of clicks.
 % This metric indicates the minimal number of clicks needed to get from one article to another.
+\end{itemize}
 
-\subsection{Width metrics}
+
+\subsubsection{Width metrics}
 The width-like metric we used is \emph{PageRank}. To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link.
 At some point this user gets bored and starts at some other random page and continues clicking links randomly.
 The PageRank of page $a$ is defined as the chance this user reaches it \cite{Brin1998Anatomy}.
-Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach, as PageRank grows with more incoming links, and gives more weight to incoming links from pages that are themselves easy to reach.
+Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach. PageRank grows with more incoming links, and gives more weight to incoming links from pages that are themselves easy to reach.
 
 We also tried using the indegree of a page in the Wikipedia graph, but found that it gave strictly worse results. We will not discuss indegree as a metric further.
 
 \subsection{Binning strategies}
-The dataset we use is quite noisy and contains many entries with slightly different distances and widths.
-By binning the data on the \emph{ID} we reduce noise and make the relation more smooth.
-We tried binning the data in two different ways: \emph{fixed width binning} and \emph{proportional binning}.
+To analyze the resutls of each experiment, we used binning to group tasks with similar difficulty $ID$. The reason for this is that without binning, the data contains a lot of tasks that are similar in difficulty but have very few samples. This creates a lot of noise. We primarily used proportional bins (where we vary bin width and attempt to balance the number of data points per bin) and fixed size bins (where each datapoint represents a single task with at least three datapoints) in this paper. In the appendix we also provide the without binning.
 
-For fixed width binning, all bins have an equal `width'. Since all points are not distributed equally over the \emph{ID}, bins contain big differences in the number of points they contain. 
+\subsection{Experimental setup}
+For each pair $(D,W)$ we:
+\begin{enumerate}
+    \item Compute $D$ and $W$ for all traces 
+    \item Compute $ID$ for all traces 
+    \item Bin the traces based on the resulting $ID$ 
+    \item Use linear regression to fit a line to the index of difficulty $ID$ and the number of clicks (For this, we used SciPy \cite{scipy})
+    \item Analyse the resulting line and $r$ value
+\end{enumerate}
 
-For proportional binning, bins contain the same number of points. Since all points are not distributed equally over \emph{ID}, the ranges of the bins also differ significantly.
+\subsection{Answering our research question}
+We can use the experimental setup above to answer \say{Can we find conseptual mappings for signal and noise in Shannon's theorom that have a log-linear relationship with the number of clicks?} through the analysis of the figures resulting from our linear regression. By analysing how well linear regression is able to fit a line to our data we can draw conclusions on the existance of a linear relationship between $ID$ and the number of clicks. This in turn then provides insight into wether a log-linear relationsihp exists between the number of clicks, and $D$ and $W$.
+ 
+% The dataset we use is quite noisy and contains many entries with slightly different distances and widths.
+% By binning the data on the \emph{ID} we reduce noise and make the relation more smooth.
+% We tried binning the data in two different ways: \emph{fixed width binning} and \emph{proportional binning}.
+
+% For fixed width binning, all bins have an equal `width'. Since all points are not distributed equally over the \emph{ID}, bins contain big differences in the number of points they contain. 
+
+% For proportional binning, bins contain the same number of points. Since all points are not distributed equally over \emph{ID}, the ranges of the bins also differ significantly.

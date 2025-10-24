@@ -1,5 +1,5 @@
 \section{Conclusions}
-In our project, we attempted to find a difficulty metric for Wikispeedia games. We found reasonable success, as long as the metric takes into account a combination of graph structure and semantic distances as given by our LLM embeddings. Metrics that look at these factors in isolation performed worse as a predictor of difficulty.
+In this project, we attempted to find a difficulty metric for Wikispeedia games. Specifically we investigated whether we could find such a difficulty metric that is described akin to Shannon's Theorem, and has a log-linear relationship with the number of clicks. We found reasonable success, as long as the resulting metric takes into account a combination of graph structure and semantic distances as given by our LLM embeddings. These experiments showed quite a strong linear relationship. Metrics that look at these factors in isolation showed less correlation. Our results indicate that our choice for conceptualisation for noise (PageRank) is not perfect as it does not seem to have a large impact. In one experiment it did significantly improve the correlation, but this is likely explained by the fact that the model now takes into account the graph structure.
 
 
 % % ### Intuititions for future directions I got from ChatGP
