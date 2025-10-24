@@ -29,5 +29,13 @@ At some point this user gets bored and starts at some other random page and cont
 The PageRank of page $a$ is defined as the chance this user reaches page $a$ \cite{Brin1998Anatomy}.
 Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach.
 
+\subsection{Binning strategies}
+The dataset we use is quite noisy and contains many entries with slightly different distances and widths.
+By binning the data on the \emph{ID} we reduce noise and make the relation more smooth.
+We tried binning the data in two different ways: \emph{fixed width binning} and \emph{proportional binning}.
+
+\paragraph{fixed width binning}
+All bins have an equal `width'. Since all points are not distributed equally over the \emph{ID}, bins contain big differences in the number of points they contain. 
+
 % \paragraph{Indegree}
 We also tried using the indegree of a page in the Wikipedia graph, but found that it gave strictly worse results. We will not discuss indegree as a metric further.
