@@ -11,7 +11,7 @@ After binning, we use linear regression to see if there is a correlation between
 In this paper, we tried the following three distance metrics: \emph{semantic distance}, \emph{semantic graph distance}, and \emph{graph distance}.
 
 % \paragraph{Semantic distance}
-The first distance metric, \emph{semantic distance}, is calculated by the LLM transformer model \cite{...} and indicates the similarity of the titles of two Wikipedia articles.
+The first distance metric, \emph{semantic distance}, is calculated by the LLM transformer model and indicates the similarity of the titles of two Wikipedia articles.
 
 % \paragraph{Semantic graph distance}
 In order to calculate the second distance metric, \emph{semantic graph distance}, we first construct a graph of all Wikipedia pages in the dataset.
@@ -38,4 +38,4 @@ We tried binning the data in two different ways: \emph{fixed width binning} and 
 
 For fixed width binning, all bins have an equal `width'. Since all points are not distributed equally over the \emph{ID}, bins contain big differences in the number of points they contain. 
 
-For proportional binning, bins contain the same number of points. Since all points are not distributed equally over \emph{ID}, the ranges of the bins also differ significantly.
+For proportional binning, bins contain the same number of points. Since all points are not distributed equally over \emph{ID}, the ranges of the bins also differ substantially.
