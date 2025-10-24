@@ -2,7 +2,9 @@
 \label{sec:methods}
 In order to try and find useful difficulty metrics for Wikispeedia, we compared various potential metrics to see how well they predict the 'real' difficulty, measured by how long the user ended up taking. To do this, we tried the same formula as Fitts' law, $ID = log_2(\frac{D}{W} + 1)$, by investigating metrics that are conceptually similar to distance (how far we are removed from our target page) and width (how easy it is to reach the target page).
 
-Furthermore, we binned together tasks with similar difficulty. The reason for this is that without binning, we have a lot of tasks
+Furthermore, we used binning to group tasks with similar difficulty. The reason for this is that without binning, we have a lot of tasks that are similar in difficulty but have very few samples, causing a lot of noise. We primarily used proportional bins (where we vary bin width and attempt to balance the number of data points per bin) in this paper, but the appendix also contains results without binning (where each datapoint represents a single task with at least three datapoints) and results with fixed-width bins.
+
+After binning, we use linear regression to see if there is a correlation between the index of difficulty and the number of clicks taken. For this, we used SciPy \cite{scipy}.
 
 \subsection{Distance metrics}
 % \paragraph{Distance metrics}
@@ -22,14 +24,10 @@ The last distance matric, \emph{graph distance}, represents the length of the sh
 % This metric indicates the minimal number of clicks needed to get from one article to another.
 
 \subsection{Width metrics}
-Additionally, we tried two width-analogous metrics: \emph{PageRank} and \emph{indegree}.
-
-% \paragraph{PageRank}
-The first width metric is \emph{PageRank}. To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link on the wikipedia page.
+The width-like metric we used is \emph{PageRank}. To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link.
 At some point this user gets bored and starts at some other random page and continues clicking links randomly.
 The PageRank of page $a$ is defined as the chance this user reaches page $a$ \cite{Brin1998Anatomy}.
 Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach.
 
 % \paragraph{Indegree}
-The second width metric is \emph{indegree}. This is the number of links to the target article in the Wikipedia graph.
-The idea behind this is that, if there are more incoming links, we can more easily reach the target page.
+We also tried using the indegree of a page in the Wikipedia graph, but found that it gave strictly worse results. We will not discuss indegree as a metric further.
