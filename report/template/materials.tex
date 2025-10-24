@@ -1,0 +1,17 @@
+\section{Materials}
+In this section we provide a brief overview of the materials used in this project. 
+
+\subsection{Dataset}
+The data used in this project originates from the Wikispeedia project \cite{semdistances}. The dataset and more information can be found at \href{https://dlab.epfl.ch/wikispeedia/play/}{https://dlab.epfl.ch/wikispeedia/play/}.
+
+The following items are relevant for us in this paper:
+\begin{itemize}
+    \item articles: a list of all articles
+    \item links: a list of all articles with a link between them
+    \item paths (un)finished: a collection of paths traversing the graph 
+\end{itemize}
+
+The graph in this case is defined over the articles as nodes and links as edges. 
+
+\subsection{Transformer}
+To create our embeddings we use a BERT based sentence-encoder. Specifically we use the following model on huggingface sentence-transformers/all-MiniLM-L6-v2. It maps sentences and paragraphs to a 384 dimensional dense vector space.
