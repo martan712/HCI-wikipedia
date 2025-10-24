@@ -1,26 +1,34 @@
 \section{Methods}
 \label{sec:methods}
-In order to try and find useful difficulty metrics for Wikispeedia, we compared various potential metrics to see how well they predict the 'real' difficulty, measured by how long the user ended up taking. To do this, we tried the same formula as Fitts' law, $ID = log_2(\frac{D}{W} + 1)$, by investigating metrics that are conceptually similar to distance (how far we are removed from our target page) and width (how easy it is to `hit' the target page).
+In order to try and find useful difficulty metrics for Wikispeedia, we compared various potential metrics to see how well they predict the 'real' difficulty, measured by how long the user ended up taking. To do this, we tried the same formula as Fitts' law, $ID = log_2(\frac{D}{W} + 1)$, by investigating metrics that are conceptually similar to distance (how far we are removed from our target page) and width (how easy it is to reach the target page).
+
+Furthermore, we binned together tasks with similar difficulty. The reason for this is that without binning, we have a lot of tasks
 
 \subsection{Distance metrics}
-In this paper, we use the following three distance metrics: \emph{semantic distance}, \emph{semantic graph distance}, and \emph{graph distance}.
-The first distance metric, \emph{semantic distance}, is calculated by the llm transformer model \cite{...} and indicates the similarity of the titles of two wikipedia articles.
+% \paragraph{Distance metrics}
+In this paper, we tried the following three distance metrics: \emph{semantic distance}, \emph{semantic graph distance}, and \emph{graph distance}.
 
-In order to calculate the second distance metric, \emph{semantic graph distance}, we first construct a graph of all wikipedia pages in the dataset.
-The wikipedia pages reresent the vertices in the graph, and links between articles are the edges.
-We now let the llm model calculate the semantic distances between all vertices that have an edge.
-The semantic graph distance between two articles is the shortest path in this weighted graph and we use Dijkstra to find the shortest paths.
+\paragraph{Semantic distance}
+The first distance metric, \emph{semantic distance}, is calculated by the LLM transformer model \cite{...} and indicates the similarity of the titles of two Wikipedia articles.
 
-The last distance matric, \emph{graph distance}, represents the shortest path in the wikipedia graph where all edges have a weight of 1.
-We can think of this metric as the minimal number of clicks needed to get from one article to another.  
+\paragraph{Semantic graph distance}
+In order to calculate the second distance metric, \emph{semantic graph distance}, we first construct a graph of all Wikipedia pages in the dataset.
+The articles represent the vertices in the graph, and the links between them are the edges.
+We then use the LLM's semantic distance as the length of each edge.
+The semantic graph distance between two articles is the length of the shortest path in this weighted graph.
+
+\paragraph{Graph distance}
+The last distance matric, \emph{graph distance}, represents the length of the shortest path between two pages, but where all edges simply have a weight of 1, representing the minimal number of clicks.
+% This metric indicates the minimal number of clicks needed to get from one article to another.
 
 \subsection{Width metrics}
-The following two width metrics are used in this experiment: \emph{PageRank} and \emph{indegree}.
-To explain the intuition behind PageRank, we can use a user who is surfing the wikipedia web. This user starts on some random page and randomly clicks a link on the wikipedia page.
+Additionally, we tried two width-analogous metrics: \emph{PageRank} and \emph{indegree}.
+
+\paragraph{PageRank}
+To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link on the wikipedia page.
 At some point this user gets bored and starts at some other random page and continues clicking links randomly.
 The PageRank of page \textsf{a} is defined as the chance this user reaches page \textsf{a} \cite{Brin1998Anatomy}. 
-Therefore, the higher the PageRank, the easier it is to reach the article, which is similar to the width in Fitts' law.
-If a target has a higher width, the target is easier to reach.
+Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach.
 
-The second width metric is \emph{indegree}. This represents the number of incoming edges of the target article in the wikipedia graph.
-The idea behind this is that more incoming edges mean that the target article is easier to reach. 
+\paragraph{Indegree} The second width metric is \emph{indegree}. This is the number of links to the target article in the Wikipedia graph.
+The idea behind this is that, if there are more incoming links, we can more easily reach the target page.
