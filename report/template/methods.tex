@@ -8,27 +8,28 @@ Furthermore, we binned together tasks with similar difficulty. The reason for th
 % \paragraph{Distance metrics}
 In this paper, we tried the following three distance metrics: \emph{semantic distance}, \emph{semantic graph distance}, and \emph{graph distance}.
 
-\paragraph{Semantic distance}
+% \paragraph{Semantic distance}
 The first distance metric, \emph{semantic distance}, is calculated by the LLM transformer model \cite{...} and indicates the similarity of the titles of two Wikipedia articles.
 
-\paragraph{Semantic graph distance}
+% \paragraph{Semantic graph distance}
 In order to calculate the second distance metric, \emph{semantic graph distance}, we first construct a graph of all Wikipedia pages in the dataset.
 The articles represent the vertices in the graph, and the links between them are the edges.
 We then use the LLM's semantic distance as the length of each edge.
 The semantic graph distance between two articles is the length of the shortest path in this weighted graph.
 
-\paragraph{Graph distance}
+% \paragraph{Graph distance}
 The last distance matric, \emph{graph distance}, represents the length of the shortest path between two pages, but where all edges simply have a weight of 1, representing the minimal number of clicks.
 % This metric indicates the minimal number of clicks needed to get from one article to another.
 
 \subsection{Width metrics}
 Additionally, we tried two width-analogous metrics: \emph{PageRank} and \emph{indegree}.
 
-\paragraph{PageRank}
-To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link on the wikipedia page.
+% \paragraph{PageRank}
+The first width metric is \emph{PageRank}. To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link on the wikipedia page.
 At some point this user gets bored and starts at some other random page and continues clicking links randomly.
-The PageRank of page \textsf{a} is defined as the chance this user reaches page \textsf{a} \cite{Brin1998Anatomy}. 
+The PageRank of page $a$ is defined as the chance this user reaches page $a$ \cite{Brin1998Anatomy}.
 Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach.
 
-\paragraph{Indegree} The second width metric is \emph{indegree}. This is the number of links to the target article in the Wikipedia graph.
+% \paragraph{Indegree}
+The second width metric is \emph{indegree}. This is the number of links to the target article in the Wikipedia graph.
 The idea behind this is that, if there are more incoming links, we can more easily reach the target page.
