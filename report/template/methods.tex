@@ -26,8 +26,8 @@ The last distance matric, \emph{graph distance}, represents the length of the sh
 \subsection{Width metrics}
 The width-like metric we used is \emph{PageRank}. To explain the intuition behind PageRank, assume a user who is surfing Wikipedia. This user starts on some random page and randomly clicks a link.
 At some point this user gets bored and starts at some other random page and continues clicking links randomly.
-The PageRank of page $a$ is defined as the chance this user reaches page $a$ \cite{Brin1998Anatomy}.
-Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach.
+The PageRank of page $a$ is defined as the chance this user reaches it \cite{Brin1998Anatomy}.
+Therefore, the higher the PageRank, the easier it is to reach the article, similar to how a wider button is easier to reach, as PageRank grows with more incoming links, and gives more weight to incoming links from pages that are themselves easy to reach.
 
 % \paragraph{Indegree}
 We also tried using the indegree of a page in the Wikipedia graph, but found that it gave strictly worse results. We will not discuss indegree as a metric further.

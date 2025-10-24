@@ -1,0 +1,12 @@
+\section{Discussion}
+
+\paragraph{Metric comparison}
+Overall, our results seem to indicate that multiple factors are important for the difficulty of a Wikispeedia task. The best results are achieved by metrics that take into account a combination of semantic distances and graph structure, while metrics that completely ignore one in favour of the other give worse results.
+
+There is no one best difficulty metric in the results we found, but there are multiple that look promising and seem to give a reasonable indication of the number of clicks a user will require.
+
+\paragraph{Tail end}
+It also looks like the `tail end' (high difficulty) tasks have a slightly stronger-than-linear upwards trend. However, the data is too sparse and noisy to draw a clear conclusion about this: it can mean that there is no `true' log-linear relationship, but it can also mean that these high-difficulty tasks `overwhelm' the user, and may be similar to discontinuities seen in Fitts' law. (TODO: leave this in? and add citation if yes.)
+
+\paragraph{Binning methods}
+The results for the two binning methods are roughly similar, but differ quite a bit in details. For example, the combination of semantic graph distance and PageRank is the best metric when evaluated using proportional binning, but relatively poor when evaluated using fixed-width binning. Looking at the scatterplots, we hypothesize that this may be related to outliers in these metrics. The graph distance, for example, has only a small number of datapoints with 5 or 6 clicks, and this likely extends to the semantic graph distance having outliers as well. Proportional binning groups these together, thus reducing their impact. On the other hand, semantic distance and PageRank are less likely to have such outliers, which likely explains the good results of this combination when using fixed-width binning.
