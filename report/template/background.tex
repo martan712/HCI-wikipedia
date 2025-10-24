@@ -1,20 +1,20 @@
 \section{Background}
 \label{sec:background}
-In this section we provide an overview of background literature in current academic field.. Through this, we aim to embed our project in this field, and present the foundations of our research. We start by outlining theories on human movement in physical and virtual space, and explain our intuitions for extending this to information space, after this we describe conceptualisations of movement and distances in virtual space, specifically focussing on Wikipedia., next we conceptualise distance in targeted search, finally we briefly describe the position of the current paper in the described niche. 
+In this section we provide an overview of background literature in current academic field. Through this, we aim to embed our project in this field, and present the foundations of our research. We start by outlining theories on human movement in physical and virtual space, and explain our intuitions for extending this to information space, after this we describe conceptualisations of movement and distances in virtual space, specifically focussing on Wikipedia., next we conceptualise distance in targeted search, finally we briefly describe the position of the current paper in the described niche. 
 
 \subsection{Navigating Physical/Virtual space}
 \subsubsection{Signal-to-noise ratio}
-Shannon's Theorem describes the information capacity $C$ (in bits/s) of a communications channel of bandwidth $B$ as \[C=B\log_2(SN+1)\]. Fitts proposed an index of difficulty (ID) for a target acquisition task where signal power (S) and noise power (N) are replaced by movement amplitude (A) and target width (W), respectively. This was later reformulated to the Shannon notation,as:
+Shannon's Theorem describes the information capacity $C$ (in bits/s) of a communications channel of bandwidth $B$ as \[C=B\log_2(SN+1)\] Fitts proposed an index of difficulty (ID) for a target acquisition task where signal power (S) and noise power (N) are replaced by movement amplitude (A) and target width (W), respectively. This was later reformulated to the Shannon notation,as:
 
 \[ID=\log_2(\frac{A}{W}+1)\]
 
-According to MacKenzie\say{In Fitts' analogy, movement amplitudes are like signals and target tolerances or widths are like noise.\cite{mackenzie2018fitts}}.
+According to MacKenzie \say{In Fitts' analogy, movement amplitudes are like signals and target tolerances or widths are like noise.\cite{mackenzie2018fitts}}.
 
 \subsubsection{Two phase movement}
 In a 1996 paper Graham and MacKenzie\cite{physicalvirtualpointing} describe a finding by Woodworth\cite{pointing} that human pointing movement consists of two phases: \say{an initial planned impulse which covers most of the distance, followed by a second phase of deceleration to the target under current control}. They find evidence of similar behaviour in virtual pointing behaviour. Virtual pointing is conceptualized as mouse-movement towards a goal, which follows Fitts' law. 
 
 \subsection{Navigating Information space}
-In this paper we investigate navigation in information space, specifically targeted navigation from some starting-page to a goal-page. Specifically we are interested in investigating whether movement in this information space is similar to movement in physical space. One thing that should be noted is that the navigation in such information networks is restricted as it has to adhere to the graph strucutre, whereas the movement investigated by MacKenzie\cite{mackenzie2018fitts} is not. A motivation for our hypothesis that such an analogy is sensible is that the two problems seem similar, this is further supported by a similar two-phase movement as described by West et al. \cite{semdistances}. 
+In this paper we investigate navigation in information space, specifically targeted navigation from some starting-page to a goal-page. Specifically, we are interested in investigating whether movement in this information space is similar to movement in physical space. One thing that should be noted is that the navigation in such information networks is restricted as it has to adhere to the graph strucutre, whereas the movement investigated by MacKenzie\cite{mackenzie2018fitts} is not. A motivation for our hypothesis that such an analogy is sensible is that the two problems seem similar. This is further supported by a similar two-phase movement as described by West et al. \cite{semdistances}. 
 
 We conceputalize Shannon's Theorem in information space as follows: movement amplitudes could be computed over some distance over the two objects in the information space, the noise of an object would be the target tolerance akin to Fitts' law, which in networks would be the ease of access of a node (e.g. PageRank).
 
